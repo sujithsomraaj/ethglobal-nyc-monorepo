@@ -1,7 +1,7 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-contract ExecutionLayer {
+abstract contract ExecutionLayer {
     /// @dev allows anyone on the execution layer to store a new id on the storage layer
     /// @param extInfo_ ipfs hash of the info
     /// @param state_ could be any random state of this info initially
