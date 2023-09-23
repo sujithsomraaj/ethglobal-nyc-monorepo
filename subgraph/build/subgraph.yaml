@@ -1,0 +1,27 @@
+specVersion: 0.0.5
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Contract
+    network: goerli
+    source:
+      address: "0xDaA1abbac708780Ad0DC75c4c9331937f5a1c922"
+      abi: Contract
+      startBlock: 9747556
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - InitData
+        - UpdateData
+      abis:
+        - name: Contract
+          file: Contract/abis/Contract.json
+      eventHandlers:
+        - event: InitData(bytes32,bytes,uint256)
+          handler: handleInitData
+        - event: UpdateData(bytes32,bytes,uint256)
+          handler: handleUpdateData
+      file: Contract/Contract.wasm

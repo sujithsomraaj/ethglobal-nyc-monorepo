@@ -1,0 +1,8 @@
+{
+  "goerli": {
+    "Contract": {
+      "address": "0xDaA1abbac708780Ad0DC75c4c9331937f5a1c922",
+      "startBlock": 9747556
+    }
+  }
+}

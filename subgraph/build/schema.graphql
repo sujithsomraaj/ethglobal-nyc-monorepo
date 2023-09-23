@@ -1,0 +1,19 @@
+type InitData @entity(immutable: true) {
+  id: Bytes!
+  slotId: Bytes! # bytes32
+  data: Bytes! # bytes
+  currState_: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UpdateData @entity(immutable: true) {
+  id: Bytes!
+  slotId: Bytes! # bytes32
+  data: Bytes! # bytes
+  currState_: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
