@@ -1,0 +1,138 @@
+<svg width="1240" height="316" viewBox="0 0 1240 316" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- styles -->
+  <style type="text/css">
+    /**
+     * Variables
+     */
+    :root {
+      --path-size: 1240px;
+    }
+
+    /**
+     * Line animations
+     */
+    #line_1_animation {
+      animation: 5s ease-in dash_1 infinite;
+      stroke-dasharray: 66 calc(var(--path-size) * 2);
+      stroke-dashoffset: calc(var(--path-size) * 2.25);
+    }
+    #line_4_animation {
+      animation: 5s ease-in dash_4 infinite;
+      stroke-dasharray: 33 calc(var(--path-size) * 2.5);
+      stroke-dashoffset: calc(var(--path-size) * -2);
+    }
+    #line_5_animation {
+      animation: 5s ease-out dash_5 infinite;
+      stroke-dasharray: 100 calc(var(--path-size) * 2);
+      stroke-dashoffset: var(--path-size);
+    }
+
+    /**
+     * Animation keyframes
+     */
+    @keyframes dash_1 {
+      to {
+        stroke-dashoffset: calc(var(--path-size) * 5)
+      }
+    }
+    @keyframes dash_4 {
+      to {
+        stroke-dashoffset: calc(var(--path-size) * 1.5)
+      }
+    }
+    @keyframes dash_5 {
+      to {
+        stroke-dashoffset: calc(var(--path-size) * 3)
+      }
+    }
+  </style>
+
+  <!-- line paths -->
+  <path d="M1238 92.3908C981.69 190.16 874.09 30.0001 621.5 30C426.01 30 169.704 202.193 -1 92.3908" stroke="url(#line_1)"/>
+  <path d="M1238 128.391C981.69 226.16 874.09 66.0001 621.5 66C426.01 65.9999 169.704 238.193 -1 128.391" stroke="url(#line_2)"/>
+  <path d="M1238 168.391C981.69 266.16 874.09 106 621.5 106C426.01 106 169.704 278.193 -1 168.391" stroke="url(#line_3)"/>
+  <path d="M1238 216.391C981.69 314.16 873.09 154 620.5 154C425.01 154 169.704 326.193 -1 216.391" stroke="url(#line_4)"/>
+  <path d="M1238 264.391C981.69 362.16 873.59 202 621 202C425.51 202 169.704 374.193 -1 264.391" stroke="url(#line_5)"/>
+  <path d="M1238 324.391C981.69 422.16 873.59 262 621 262C425.51 262 169.704 434.193 -1 324.391" stroke="url(#line_6)"/>
+
+  <!-- animation paths -->
+  <path id="line_1_animation" d="M1238 92.3908C981.69 190.16 874.09 30.0001 621.5 30C426.01 30 169.704 202.193 -1 92.3908" stroke="url(#animated_line_1)"/>
+  <path id="line_4_animation" d="M1238 216.391C981.69 314.16 873.09 154 620.5 154C425.01 154 169.704 326.193 -1 216.391" stroke="url(#animated_line_4)"/>
+  <path id="line_5_animation" d="M1238 264.391C981.69 362.16 873.59 202 621 202C425.51 202 169.704 374.193 -1 264.391" stroke="url(#animated_line_5)"/>
+
+  <defs>
+    <!-- path colors -->
+    <linearGradient id="line_1" x1="1238" y1="123.5" x2="-1" y2="123.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F1F2F4" stop-opacity="0"/>
+      <stop offset="0.114571" stop-color="#F1F2F4"/>
+      <stop offset="0.501365" stop-color="#E8E9EB"/>
+      <stop offset="0.872374" stop-color="#F1F2F4"/>
+      <stop offset="1" stop-color="#F1F2F4" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="line_2" x1="1238" y1="159.5" x2="-1" y2="159.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F1F2F4" stop-opacity="0"/>
+      <stop offset="0.114571" stop-color="#F1F2F4"/>
+      <stop offset="0.501365" stop-color="#E8E9EB"/>
+      <stop offset="0.872374" stop-color="#F1F2F4"/>
+      <stop offset="1" stop-color="#F1F2F4" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="line_3" x1="1238" y1="199.5" x2="-1" y2="199.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F1F2F4" stop-opacity="0"/>
+      <stop offset="0.114571" stop-color="#F1F2F4"/>
+      <stop offset="0.501365" stop-color="#E8E9EB"/>
+      <stop offset="0.872374" stop-color="#F1F2F4"/>
+      <stop offset="1" stop-color="#F1F2F4" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="line_4" x1="1238" y1="247.5" x2="-1" y2="247.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F1F2F4" stop-opacity="0"/>
+      <stop offset="0.114571" stop-color="#F1F2F4"/>
+      <stop offset="0.501365" stop-color="#E8E9EB"/>
+      <stop offset="0.872374" stop-color="#F1F2F4"/>
+      <stop offset="1" stop-color="#F1F2F4" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="line_5" x1="1238" y1="295.5" x2="-1" y2="295.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F1F2F4" stop-opacity="0"/>
+      <stop offset="0.114571" stop-color="#F1F2F4"/>
+      <stop offset="0.501365" stop-color="#E8E9EB"/>
+      <stop offset="0.872374" stop-color="#F1F2F4"/>
+      <stop offset="1" stop-color="#F1F2F4" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="line_6" x1="1238" y1="355.5" x2="-1" y2="355.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F1F2F4" stop-opacity="0"/>
+      <stop offset="0.114571" stop-color="#F1F2F4"/>
+      <stop offset="0.501365" stop-color="#E8E9EB"/>
+      <stop offset="0.872374" stop-color="#F1F2F4"/>
+      <stop offset="1" stop-color="#F1F2F4" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- animation colors -->
+    <linearGradient id="animated_line_1" x1="1238" y1="123.5" x2="-1" y2="123.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#929AA6" stop-opacity="0"/>
+      <stop offset="0.114571" stop-color="#929AA6"/>
+      <stop offset="0.501365" stop-color="#929AA6"/>
+      <stop offset="0.872374" stop-color="#929AA6"/>
+      <stop offset="1" stop-color="#929AA6" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="animated_line_4" x1="1238" y1="247.5" x2="-1" y2="247.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#929AA6" stop-opacity="0"/>
+      <stop offset="0.114571" stop-color="#929AA6"/>
+      <stop offset="0.501365" stop-color="#929AA6"/>
+      <stop offset="0.872374" stop-color="#929AA6"/>
+      <stop offset="1" stop-color="#929AA6" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="animated_line_5" x1="1238" y1="295.5" x2="-1" y2="295.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#929AA6" stop-opacity="0"/>
+      <stop offset="0.114571" stop-color="#929AA6"/>
+      <stop offset="0.501365" stop-color="#929AA6"/>
+      <stop offset="0.872374" stop-color="#929AA6"/>
+      <stop offset="1" stop-color="#929AA6" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
