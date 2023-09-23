@@ -26,7 +26,7 @@ contract ExecutionLayer {
     IHyperlanePaymaster public igp;
 
     /// @dev is the gas service of axelar
-    IHyperlanePaymaster public gasService;
+    IAxelarGasService public gasService;
 
     /// @dev is the gateway of axelar
     IAxelarGateway public gateway;
@@ -53,6 +53,8 @@ contract ExecutionLayer {
         STORAGE_AGGREGATOR = storageContract_;
     }
 
+    receive() external payable {}
+
     /// @dev allows anyone on the execution layer to store a new id on the storage layer
     /// @param crsData_ is the init data (check DataTypes for type)
     function initializeStorage(StorageState memory crsData_) external payable {
@@ -64,7 +66,7 @@ contract ExecutionLayer {
     /// @param id_ is the slot of the storage to update on the storage layer
     /// @dev id_ is generated at the point of storage during execution
     /// @param state_ could be any random state of this info initially
-    function updateStorage(bytes32 id_, uint256 state_) external {
+    function updateStorage(bytes32 id_, uint256 state_) external payable {
         bytes memory crsData_ = abi.encode(id_, state_);
         _syncRemoteChain(abi.encode(UPDATE_SELECTOR, block.chainid, 0, crsData_));
     }
@@ -77,7 +79,7 @@ contract ExecutionLayer {
 
         try mailbox.dispatch(HYPERLANE_STORAGE_CHAIN_ID, _castAddr(STORAGE_AGGREGATOR), data_) returns (bytes32 id) {
             ++count;
-            igp.payForGas{value: address(this).balance}(id, HYPERLAN_STORAGE_CHAIN_ID, 500000, address(this));
+            igp.payForGas{value: address(this).balance}(id, HYPERLANE_STORAGE_CHAIN_ID, 500000, address(this));
         } catch {}
 
         try gateway.callContract(AXELAR_STORAGE_CHAIN_ID, AddressToString.toString(STORAGE_AGGREGATOR), data_) {

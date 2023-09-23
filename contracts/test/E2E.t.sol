@@ -29,6 +29,9 @@ contract E2ETest is Test {
     address public PolygonMailbox = 0xCC737a94FecaeC165AbCf12dED095BB13F037685;
     address public PolygonGateway = 0xBF62ef1486468a6bd26Dd669C06db43dEd5B849B;
 
+    address public PolygonIGP = 0x8f9C3888bFC8a5B25AED115A82eCbb788b196d2a;
+    address public PolygonGasService = 0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6;
+
     function setUp() external {
         STORAGE_CHAIN_FORK_ID = vm.createSelectFork(vm.envString("STORAGE_CHAIN_RPC"));
         EXECUTION_CHAIN_FORK_ID = vm.createSelectFork(vm.envString("EXECUTION_CHAIN_RPC"));
@@ -51,7 +54,7 @@ contract E2ETest is Test {
         StorageState memory data_ = StorageState(bytes("121"), 120, new address[](0), new uint256[](0));
 
         vm.recordLogs();
-        executionContract.initializeStorage(data_);
+        executionContract.initializeStorage{value: 1 ether}(data_);
 
         Vm.Log[] memory _logs = vm.getRecordedLogs();
         axelarHelper.help(
@@ -73,7 +76,7 @@ contract E2ETest is Test {
 
         vm.recordLogs();
         bytes32 slot = keccak256(abi.encode(1, abi.encode(data_)));
-        executionContract.updateStorage(slot, 121);
+        executionContract.updateStorage{value: 0.5 ether}(slot, 121);
         _logs = vm.getRecordedLogs();
 
         axelarHelper.help(
@@ -104,7 +107,7 @@ contract E2ETest is Test {
 
         vm.selectFork(EXECUTION_CHAIN_FORK_ID);
         executionContract =
-            new ExecutionLayer(IMailbox(PolygonMailbox), IAxelarGateway(PolygonGateway), address(storageContract));
+        new ExecutionLayer(IMailbox(PolygonMailbox), IHyperlanePaymaster(PolygonIGP), IAxelarGateway(PolygonGateway),IAxelarGasService(PolygonGasService),  address(storageContract));
     }
 
     function _deployHelpers() internal {
