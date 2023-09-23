@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-contract StorageLayer {
+import "./hyperlane/IHyperlaneRecipient.sol";
+import "./axelar/IAxelarExecutable.sol";
+
+contract StorageLayer is IHyperlaneRecipient, IAxelarExecutable {
     /// @dev stores a remote chain info
     struct StorageState {
         bytes extInfo_;
