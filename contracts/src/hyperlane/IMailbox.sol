@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.21;
 
 interface IMailbox {
     event Dispatch(address indexed sender, uint32 indexed destination, bytes32 indexed recipient, bytes message);

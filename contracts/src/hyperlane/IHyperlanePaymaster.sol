@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.21;
 
 interface IInterchainGasPaymaster {
     event GasPayment(bytes32 indexed messageId, uint256 gasAmount, uint256 payment);

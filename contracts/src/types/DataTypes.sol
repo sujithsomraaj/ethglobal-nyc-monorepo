@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.21;
+
 /// @dev stores a remote chain info
 struct StorageState {
     bytes extInfo_;

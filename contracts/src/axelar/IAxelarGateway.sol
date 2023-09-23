@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.21;
 
 interface IAxelarGateway {
     function callContract(string calldata destinationChain, string calldata contractAddress, bytes calldata payload)
