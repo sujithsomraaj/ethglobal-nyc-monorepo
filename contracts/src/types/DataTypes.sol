@@ -8,11 +8,3 @@ struct StorageState {
     address[] accessList_;
     uint256[] allowedChainIds;
 }
-
-/// @dev the data in flight
-/// @dev data_ encoded storage data
-struct Packet {
-    uint256 fromChainId_;
-    uint256 indexOnChain_;
-    bytes memory data_;
-}
