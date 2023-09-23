@@ -6,6 +6,8 @@ import "./axelar/IAxelarExecutable.sol";
 
 import "./types/DataTypes.sol";
 
+import "forge-std/console.sol";
+
 contract StorageLayer is IHyperlaneRecipient, IAxelarExecutable {
     /// @dev maps storage state to a storage slot
     mapping(bytes32 storageSlot_ => StorageState) public state;
@@ -24,7 +26,8 @@ contract StorageLayer is IHyperlaneRecipient, IAxelarExecutable {
 
     /// @dev functions to receive message from remote execution layers
     function handle(uint32 _origin, bytes32 _sender, bytes calldata _message) external override {
-        _validateAndStore(_message);
+        console.log("inga varala 0");
+        _validateAndProcess(_message);
     }
 
     function execute(
@@ -33,15 +36,31 @@ contract StorageLayer is IHyperlaneRecipient, IAxelarExecutable {
         string calldata sourceAddress,
         bytes calldata payload
     ) external override {
-        _validateAndStore(payload);
+        console.log("inga varala 0");
+        _validateAndProcess(payload);
     }
 
-    function _validateAndStore(bytes memory data_) internal {
-        (uint256 originChain, uint256 originChainPayloadId, bytes memory state) =
-            abi.decode(data_, (uint256, uint256, bytes));
+    function _validateAndProcess(bytes memory data_) internal {
+        (bytes32 selector, uint256 originChain, uint256 originChainPayloadId, bytes memory state_) =
+            abi.decode(data_, (bytes32, uint256, uint256, bytes));
+        console.log("inga varala 1");
+        console.logBytes32(selector);
+        console.log(originChain);
+        console.log(originChainPayloadId);
+        console.logBytes32(keccak256("STORE_SELECTOR"));
+        if (selector == keccak256("STORE_SELECTOR")) {
+            console.log("entered");
+            if (!isDuplicate[originChain][originChainPayloadId]) {
+                console.log("entered again");
+                bytes32 slot = keccak256(abi.encode(++packetCounter, data_));
+                console.logBytes32(slot);
+                state[slot] = abi.decode(state_, (StorageState));
 
-        if (!isDuplicate[originChain][originChainPayloadId]) {
-            bytes32 slot = keccak256(abi.encode(++packetCounter, state));
+                isDuplicate[originChain][originChainPayloadId] = true;
+            }
+        } else {
+            (bytes32 slot, uint256 newState) = abi.decode(state_, (bytes32, uint256));
+            state[slot].state_ = newState;
         }
     }
 }

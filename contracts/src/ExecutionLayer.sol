@@ -26,6 +26,10 @@ contract ExecutionLayer {
     /// @dev is the payload counter
     uint256 public payloadCounter;
 
+    /// @dev selectors for the store and update
+    bytes32 STORE_SELECTOR = keccak256("STORE_SELECTOR");
+    bytes32 UPDATE_SELECTOR = keccak256("UPDATE_SELECTOR");
+
     constructor(IMailbox mailbox_, IAxelarGateway gateway_, address storageContract_) {
         mailbox = mailbox_;
         gateway = gateway_;
@@ -36,33 +40,30 @@ contract ExecutionLayer {
     /// @dev allows anyone on the execution layer to store a new id on the storage layer
     /// @param crsData_ is the init data (check DataTypes for type)
     function initializeStorage(StorageState memory crsData_) external {
-        _syncRemoteChain(abi.encode(crsData_));
+        ++payloadCounter;
+        _syncRemoteChain(abi.encode(STORE_SELECTOR, block.chainid, payloadCounter, abi.encode(crsData_)));
     }
 
     /// @dev allows someone to create their own version of the id in the storage
     /// @param id_ is the slot of the storage to update on the storage layer
     /// @dev id_ is generated at the point of storage during execution
     /// @param state_ could be any random state of this info initially
-    function updateStorage(bytes32 id_, uint256 state_) external {}
+    function updateStorage(bytes32 id_, uint256 state_) external {
+        bytes memory crsData_ = abi.encode(id_, state_);
+        _syncRemoteChain(abi.encode(UPDATE_SELECTOR, block.chainid, 0, crsData_));
+    }
 
     /// @dev is a helper function to send the state to storage layer
     /// @dev uses the bridge that's available for the commns (either hyperlane / axelar)
     /// @param data_ is the data to be sent across-chains
     function _syncRemoteChain(bytes memory data_) internal {
-        ++payloadCounter;
         uint256 count;
 
-        try mailbox.dispatch(
-            HYPERLANE_STORAGE_CHAIN_ID, _castAddr(STORAGE_AGGREGATOR), abi.encode(block.chainid, payloadCounter, data_)
-        ) {
+        try mailbox.dispatch(HYPERLANE_STORAGE_CHAIN_ID, _castAddr(STORAGE_AGGREGATOR), data_) {
             ++count;
         } catch {}
 
-        try gateway.callContract(
-            AXELAR_STORAGE_CHAIN_ID,
-            AddressToString.toString(STORAGE_AGGREGATOR),
-            abi.encode(block.chainid, payloadCounter, data_)
-        ) {
+        try gateway.callContract(AXELAR_STORAGE_CHAIN_ID, AddressToString.toString(STORAGE_AGGREGATOR), data_) {
             ++count;
         } catch {}
 
