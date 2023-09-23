@@ -3,13 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --green: #3cbd68;
+  --green: #0e76fd;
+  --black: #22262A;
+}
+
+html,
+body {
+  font-family: "Work Sans" !important;
 }
 
 .text-green {
   color: var(--green);
 }
 
+.text-black {
+  color: var(--black);
+}
+
 .bg-lines {
-  background: url("/wave-lines.svg") no-repeat 100% 100%, #fcfcfd;
+  background: url("/wave-lines.svg") no-repeat #fcfcfd;
+  background-size: cover;
 }

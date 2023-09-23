@@ -1,28 +1,63 @@
 import '@/styles/globals.css'
+import '@rainbow-me/rainbowkit/styles.css';
 
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
-import { Web3Modal } from '@web3modal/react'
-import { configureChains, createConfig, WagmiConfig } from 'wagmi'
-import { arbitrum, mainnet, polygon } from 'wagmi/chains'
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import {
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  base,
+  zora,
+  goerli,
+  polygonMumbai,
+  arbitrumGoerli,
+} from 'wagmi/chains';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
+import Link from 'next/link';
+import Head from 'next/head';
 
-const chains = [arbitrum, mainnet, polygon]
-const projectId = '67e2178760e215e45d28c9a32d5efb87'
+const { chains, publicClient } = configureChains(
+  [goerli, polygonMumbai, arbitrumGoerli],
+  [
+    alchemyProvider({ apiKey: "s-sEaMiC8rHW7Tab8CTs3GWYX0vDKUhz"}),
+    publicProvider()
+  ]
+);
 
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+const { connectors } = getDefaultWallets({
+  appName: 'CAPITAL EPSILON',
+  projectId: '67e2178760e215e45d28c9a32d5efb87',
+  chains
+});
+
 const wagmiConfig = createConfig({
   autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
+  connectors,
   publicClient
 })
-const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
 export default function App({ Component, pageProps }) {
   return(
     <>
+    <Head>
+       <Link rel="preconnect" href="https://fonts.googleapis.com" />
+       <Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+       <Link
+          href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+          />
+    </Head>
       <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider chains={chains}>  
         <Component {...pageProps} />
+        </RainbowKitProvider>
       </WagmiConfig>
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
     </>
    )
 }

@@ -1,0 +1,154 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "contract IMailbox",
+                "name": "mailbox_",
+                "type": "address"
+            },
+            {
+                "internalType": "contract IAxelarGateway",
+                "name": "gateway_",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "storageContract_",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "AXELAR_STORAGE_CHAIN_ID",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "HYPERLANE_STORAGE_CHAIN_ID",
+        "outputs": [
+            {
+                "internalType": "uint32",
+                "name": "",
+                "type": "uint32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "STORAGE_AGGREGATOR",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "gateway",
+        "outputs": [
+            {
+                "internalType": "contract IAxelarGateway",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "bytes",
+                        "name": "extInfo_",
+                        "type": "bytes"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "state_",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address[]",
+                        "name": "accessList_",
+                        "type": "address[]"
+                    },
+                    {
+                        "internalType": "uint256[]",
+                        "name": "allowedChainIds",
+                        "type": "uint256[]"
+                    }
+                ],
+                "internalType": "struct StorageState",
+                "name": "crsData_",
+                "type": "tuple"
+            }
+        ],
+        "name": "initializeStorage",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "mailbox",
+        "outputs": [
+            {
+                "internalType": "contract IMailbox",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "payloadCounter",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "id_",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "state_",
+                "type": "uint256"
+            }
+        ],
+        "name": "updateStorage",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

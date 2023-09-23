@@ -2,7 +2,9 @@
 pragma solidity ^0.8.21;
 
 import "./hyperlane/IMailbox.sol";
+import "./hyperlane/IHyperlanePaymaster.sol";
 import "./axelar/IAxelarGateway.sol";
+import "./axelar/IAxelarGasService.sol";
 
 import "./types/DataTypes.sol";
 import "./libraries/AddressString.sol";
@@ -20,6 +22,12 @@ contract ExecutionLayer {
     /// @dev is the mailbox of hyperlane
     IMailbox public mailbox;
 
+    /// @dev is the gas paymaster of hyperlane
+    IHyperlanePaymaster public igp;
+
+    /// @dev is the gas service of axelar
+    IHyperlanePaymaster public gasService;
+
     /// @dev is the gateway of axelar
     IAxelarGateway public gateway;
 
@@ -30,16 +38,24 @@ contract ExecutionLayer {
     bytes32 STORE_SELECTOR = keccak256("STORE_SELECTOR");
     bytes32 UPDATE_SELECTOR = keccak256("UPDATE_SELECTOR");
 
-    constructor(IMailbox mailbox_, IAxelarGateway gateway_, address storageContract_) {
+    constructor(
+        IMailbox mailbox_,
+        IHyperlanePaymaster igp_,
+        IAxelarGateway gateway_,
+        IAxelarGasService gasService_,
+        address storageContract_
+    ) {
         mailbox = mailbox_;
         gateway = gateway_;
+        igp = igp_;
+        gasService = gasService_;
 
         STORAGE_AGGREGATOR = storageContract_;
     }
 
     /// @dev allows anyone on the execution layer to store a new id on the storage layer
     /// @param crsData_ is the init data (check DataTypes for type)
-    function initializeStorage(StorageState memory crsData_) external {
+    function initializeStorage(StorageState memory crsData_) external payable {
         ++payloadCounter;
         _syncRemoteChain(abi.encode(STORE_SELECTOR, block.chainid, payloadCounter, abi.encode(crsData_)));
     }
@@ -54,17 +70,21 @@ contract ExecutionLayer {
     }
 
     /// @dev is a helper function to send the state to storage layer
-    /// @dev uses the bridge that's available for the commns (either hyperlane / axelar)
+    /// @dev uses the bridge that's available for the commns (either hyperlane / axelar (or) both)
     /// @param data_ is the data to be sent across-chains
     function _syncRemoteChain(bytes memory data_) internal {
         uint256 count;
 
-        try mailbox.dispatch(HYPERLANE_STORAGE_CHAIN_ID, _castAddr(STORAGE_AGGREGATOR), data_) {
+        try mailbox.dispatch(HYPERLANE_STORAGE_CHAIN_ID, _castAddr(STORAGE_AGGREGATOR), data_) returns (bytes32 id) {
             ++count;
+            igp.payForGas{value: address(this).balance}(id, HYPERLAN_STORAGE_CHAIN_ID, 500000, address(this));
         } catch {}
 
         try gateway.callContract(AXELAR_STORAGE_CHAIN_ID, AddressToString.toString(STORAGE_AGGREGATOR), data_) {
             ++count;
+            gasService.payNativeGasForContractCall{value: address(this).balance}(
+                msg.sender, AXELAR_STORAGE_CHAIN_ID, AddressToString.toString(STORAGE_AGGREGATOR), data_, msg.sender
+            );
         } catch {}
 
         /// @dev storage chain should be invoked by a call here
