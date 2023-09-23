@@ -48,9 +48,10 @@ contract E2ETest is Test {
 
     function test_e2e() external {
         vm.selectFork(EXECUTION_CHAIN_FORK_ID);
+        StorageState memory data_ = StorageState(bytes("121"), 120, new address[](0), new uint256[](0));
 
         vm.recordLogs();
-        executionContract.initializeStorage(StorageState(bytes("121"), 120, new address[](0), new uint256[](0)));
+        executionContract.initializeStorage(data_);
 
         Vm.Log[] memory _logs = vm.getRecordedLogs();
         axelarHelper.help(
@@ -62,16 +63,39 @@ contract E2ETest is Test {
             _logs
         );
 
-        // hyperlaneHelper.help(
-        //     PolygonMailbox,
-        //     PolygonMailbox,
-        //     /// to mailbox but hyperlane uses create 2
-        //     STORAGE_CHAIN_FORK_ID,
-        //     _logs
-        // );
+        hyperlaneHelper.help(
+            PolygonMailbox,
+            PolygonMailbox,
+            /// to mailbox but hyperlane uses create 2
+            STORAGE_CHAIN_FORK_ID,
+            _logs
+        );
+
+        vm.recordLogs();
+        bytes32 slot = keccak256(abi.encode(1, abi.encode(data_)));
+        executionContract.updateStorage(slot, 121);
+        _logs = vm.getRecordedLogs();
+
+        axelarHelper.help(
+            EXECUTION_CHAIN_AXELAR_CHAIN_ID,
+            0xe432150cce91c13a887f7D836923d5597adD8E31,
+            /// axelar gateway on ETH
+            STORAGE_CHAIN_AXELAR_CHAIN_ID,
+            STORAGE_CHAIN_FORK_ID,
+            _logs
+        );
+
+        hyperlaneHelper.help(
+            PolygonMailbox,
+            PolygonMailbox,
+            /// to mailbox but hyperlane uses create 2
+            STORAGE_CHAIN_FORK_ID,
+            _logs
+        );
 
         vm.selectFork(STORAGE_CHAIN_FORK_ID);
-        assertGt(storageContract.packetCounter(), 0);
+        (bytes memory a, uint256 b) = storageContract.state(slot);
+        assertEq(b, 121);
     }
 
     function _deployContracts() internal {

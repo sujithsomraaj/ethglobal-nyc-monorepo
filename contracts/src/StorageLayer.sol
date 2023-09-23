@@ -39,16 +39,21 @@ contract StorageLayer is IHyperlaneRecipient, IAxelarExecutable {
     function _validateAndProcess(bytes memory data_) internal {
         (bytes32 selector, uint256 originChain, uint256 originChainPayloadId, bytes memory state_) =
             abi.decode(data_, (bytes32, uint256, uint256, bytes));
+
         if (selector == keccak256("STORE_SELECTOR")) {
             if (!isDuplicate[originChain][originChainPayloadId]) {
-                bytes32 slot = keccak256(abi.encode(++packetCounter, data_));
+                ++packetCounter;
+                bytes32 slot = keccak256(abi.encode(packetCounter, state_));
                 state[slot] = abi.decode(state_, (StorageState));
 
                 isDuplicate[originChain][originChainPayloadId] = true;
+                emit InitData(slot, bytes(state_), state[slot].state_);
             }
         } else {
             (bytes32 slot, uint256 newState) = abi.decode(state_, (bytes32, uint256));
             state[slot].state_ = newState;
+
+            emit UpdateData(slot, abi.encode(state[slot]), newState);
         }
     }
 }
