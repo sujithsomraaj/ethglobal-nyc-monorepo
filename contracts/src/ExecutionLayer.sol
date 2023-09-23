@@ -7,7 +7,7 @@ import "./axelar/IAxelarGateway.sol";
 import "./types/DataTypes.sol";
 import "./libraries/AddressString.sol";
 
-abstract contract ExecutionLayer {
+contract ExecutionLayer {
     /// @dev is the storage layer chain id (for axelar)
     string public constant AXELAR_STORAGE_CHAIN_ID = "ethereum-2";
 
@@ -22,6 +22,9 @@ abstract contract ExecutionLayer {
 
     /// @dev is the gateway of axelar
     IAxelarGateway public gateway;
+
+    /// @dev is the payload counter
+    uint256 public payloadCounter;
 
     constructor(IMailbox mailbox_, IAxelarGateway gateway_, address storageContract_) {
         mailbox = mailbox_;
@@ -46,13 +49,20 @@ abstract contract ExecutionLayer {
     /// @dev uses the bridge that's available for the commns (either hyperlane / axelar)
     /// @param data_ is the data to be sent across-chains
     function _syncRemoteChain(bytes memory data_) internal {
+        ++payloadCounter;
         uint256 count;
 
-        try gateway.callContract(AXELAR_STORAGE_CHAIN_ID, AddressToString.toString(STORAGE_AGGREGATOR), data_) {
+        try mailbox.dispatch(
+            HYPERLANE_STORAGE_CHAIN_ID, _castAddr(STORAGE_AGGREGATOR), abi.encode(block.chainid, payloadCounter, data_)
+        ) {
             ++count;
         } catch {}
 
-        try mailbox.dispatch(HYPERLANE_STORAGE_CHAIN_ID, _castAddr(STORAGE_AGGREGATOR), data_) {
+        try gateway.callContract(
+            AXELAR_STORAGE_CHAIN_ID,
+            AddressToString.toString(STORAGE_AGGREGATOR),
+            abi.encode(block.chainid, payloadCounter, data_)
+        ) {
             ++count;
         } catch {}
 
