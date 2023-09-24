@@ -105,8 +105,7 @@ contract ERC20Test is Test {
 
     function _deployERC20() internal {
         vm.selectFork(STORAGE_CHAIN_FORK_ID);
-        vm.prank(user);
-        ERC20 = new StatefulERC20();
+        ERC20 = new StatefulERC20(vm.addr(420));
 
         vm.selectFork(EXECUTION_CHAIN_FORK_ID);
         ERC20_STATELESS = new StatelessERC20(IExecutionLayer(address(executionContract)), address(ERC20));
