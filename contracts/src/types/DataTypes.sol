@@ -5,6 +5,7 @@ pragma solidity ^0.8.21;
 struct StorageState {
     bytes extInfo_;
     uint256 state_;
+    address recipient;
     address[] accessList_;
     uint256[] allowedChainIds;
 }

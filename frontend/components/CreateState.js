@@ -53,7 +53,7 @@ export default function CreateState() {
                 syncData?.map((d) => {
                     return (
                         <div className="grid grid-cols-3 mt-2 border p-3 rounded">
-                            <p className="flex place-items-center">{d.slotId.slice(0, 5) + "....." + d.slotId.slice(d.slotId.length - 5, d.slotId.length)} <BiCopyAlt /></p>
+                            <p className="flex place-items-center">{d.slotId.slice(0, 5) + "....." + d.slotId.slice(d.slotId.length - 5, d.slotId.length)} <BiCopyAlt  className="ml-2" /></p>
                             <p>{d.currState_}</p>
                             <p>{d.data.slice(0, 10) + "....." + d.data.slice(d.data.length - 10, d.data.length)}</p>
                         </div>

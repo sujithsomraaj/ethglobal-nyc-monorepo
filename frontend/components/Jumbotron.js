@@ -9,7 +9,8 @@ export default function Jumbotron() {
                 <p className="text-xl mt-3">Capital ε attempts to fix rollup/alternative L1 driven state fragmentation through an open global state layer accessible to all</p>
             </div>
             <div className='mt-14'>
-                <Link className="pr-20 pl-20 pt-4 pb-4 bg-blue text-white border font-bold rounded-xl" href="/dapp">ENTER THE APP</Link>
+                <Link className="pr-20 pl-20 pt-4 pb-4 bg-blue text-white border font-bold rounded-xl" href="/infra">EXPLORE INFRA</Link>
+                <Link className="pr-20 pl-20 pt-4 pb-4 ml-10 bg-blue text-white border font-bold rounded-xl" href="/bridge">BRIDGE TOKENS</Link>
             </div>
         </div>
     )

@@ -6,6 +6,10 @@ import "./axelar/IAxelarExecutable.sol";
 
 import "./types/DataTypes.sol";
 
+interface IStatefulContract {
+    function syncState(bytes memory data_) external;
+}
+
 contract StorageLayer is IHyperlaneRecipient, IAxelarExecutable {
     /// @dev maps storage state to a storage slot
     mapping(bytes32 storageSlot_ => StorageState) public state;
@@ -47,6 +51,12 @@ contract StorageLayer is IHyperlaneRecipient, IAxelarExecutable {
                 state[slot] = abi.decode(state_, (StorageState));
 
                 isDuplicate[originChain][originChainPayloadId] = true;
+
+                /// @dev could move the call to the recipient
+                if (state[slot].recipient != address(this)) {
+                    IStatefulContract(state[slot].recipient).syncState(state[slot].extInfo_);
+                }
+
                 emit InitData(slot, bytes(state_), state[slot].state_);
             }
         } else {

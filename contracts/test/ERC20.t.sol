@@ -5,10 +5,13 @@ import "forge-std/Test.sol";
 import "../src/StorageLayer.sol";
 import "../src/ExecutionLayer.sol";
 
+import "../src/token-poc/StatefulERC20.sol";
+import "../src/token-poc/StatelessERC20.sol";
+
 import {AxelarHelper} from "pigeon/axelar/AxelarHelper.sol";
 import {HyperlaneHelper} from "pigeon/hyperlane/HyperlaneHelper.sol";
 
-contract E2ETest is Test {
+contract ERC20Test is Test {
     address public user;
 
     uint256 EXECUTION_CHAIN_FORK_ID;
@@ -32,6 +35,9 @@ contract E2ETest is Test {
     address public PolygonIGP = 0x8f9C3888bFC8a5B25AED115A82eCbb788b196d2a;
     address public PolygonGasService = 0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6;
 
+    StatefulERC20 public ERC20;
+    StatelessERC20 public ERC20_STATELESS;
+
     function setUp() external {
         STORAGE_CHAIN_FORK_ID = vm.createSelectFork(vm.envString("STORAGE_CHAIN_RPC"));
         EXECUTION_CHAIN_FORK_ID = vm.createSelectFork(vm.envString("EXECUTION_CHAIN_RPC"));
@@ -44,18 +50,20 @@ contract E2ETest is Test {
         /// @dev deploy helper contracts
         _deployHelpers();
 
+        /// @dev deploy the helpers
+        _deployERC20();
+
         /// @dev generate a test user
         user = vm.addr(420);
         vm.deal(user, 10 ether);
     }
 
-    function test_e2e() external {
+    function test_erc20() external {
         vm.selectFork(EXECUTION_CHAIN_FORK_ID);
-        StorageState memory data_ =
-            StorageState(bytes("121"), 120, address(storageContract), new address[](0), new uint256[](0));
 
         vm.recordLogs();
-        executionContract.initializeStorage{value: 1 ether}(data_);
+        vm.prank(user);
+        ERC20_STATELESS.transfer{value: 2 ether}(address(421), 2e18);
 
         Vm.Log[] memory _logs = vm.getRecordedLogs();
         axelarHelper.help(
@@ -75,31 +83,8 @@ contract E2ETest is Test {
             _logs
         );
 
-        vm.recordLogs();
-        bytes32 slot = keccak256(abi.encode(1, abi.encode(data_)));
-        executionContract.updateStorage{value: 0.5 ether}(slot, 121);
-        _logs = vm.getRecordedLogs();
-
-        axelarHelper.help(
-            EXECUTION_CHAIN_AXELAR_CHAIN_ID,
-            0xe432150cce91c13a887f7D836923d5597adD8E31,
-            /// axelar gateway on ETH
-            STORAGE_CHAIN_AXELAR_CHAIN_ID,
-            STORAGE_CHAIN_FORK_ID,
-            _logs
-        );
-
-        hyperlaneHelper.help(
-            PolygonMailbox,
-            PolygonMailbox,
-            /// to mailbox but hyperlane uses create 2
-            STORAGE_CHAIN_FORK_ID,
-            _logs
-        );
-
         vm.selectFork(STORAGE_CHAIN_FORK_ID);
-        (bytes memory a, uint256 b,) = storageContract.state(slot);
-        assertEq(b, 121);
+        assertEq(ERC20.balance(address(421)), 2e18);
     }
 
     function _deployContracts() internal {
@@ -116,5 +101,14 @@ contract E2ETest is Test {
 
         axelarHelper = new AxelarHelper();
         hyperlaneHelper = new HyperlaneHelper();
+    }
+
+    function _deployERC20() internal {
+        vm.selectFork(STORAGE_CHAIN_FORK_ID);
+        vm.prank(user);
+        ERC20 = new StatefulERC20();
+
+        vm.selectFork(EXECUTION_CHAIN_FORK_ID);
+        ERC20_STATELESS = new StatelessERC20(IExecutionLayer(address(executionContract)), address(ERC20));
     }
 }
