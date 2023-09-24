@@ -9,7 +9,7 @@
 
 html,
 body {
-  font-family: "Work Sans" !important;
+  font-family: "Inclusive Sans" !important;
 }
 
 .text-green {
@@ -23,4 +23,12 @@ body {
 .bg-lines {
   background: url("/wave-lines.svg") no-repeat #fcfcfd;
   background-size: cover;
+}
+
+.bg-blue {
+  background-color: var(--green);
+}
+
+.bg-white {
+  background-color: #fcfcfd;
 }

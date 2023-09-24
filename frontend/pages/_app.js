@@ -46,10 +46,10 @@ export default function App({ Component, pageProps }) {
   return(
     <>
     <Head>
-       <Link rel="preconnect" href="https://fonts.googleapis.com" />
-       <Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-       <Link
-          href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap"
+       <link rel="preconnect" href="https://fonts.googleapis.com" />
+       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+       <link
+          href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet"
           />
     </Head>
