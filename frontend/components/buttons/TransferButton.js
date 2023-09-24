@@ -1,20 +1,16 @@
 import { useContractWrite, useWaitForTransaction } from "wagmi";
-import ExecutionLayer_ABI from "../../abi/ExecutionLayer.json";
+import StatelessERC20_ABI from "../../abi/StatelessERC20.json";
 import {parseEther} from "ethers";
 
 export default function TransferButton(props) {
-    console.log(props.value)
-
     const { data, write } = useContractWrite({ 
-        address: '0x805deF1C4B18B264138c238366B4a9BEA62442c2',
-        abi: ExecutionLayer_ABI,
-        functionName: 'initializeStorage',
-        args: [{
-            extInfo_: props.value,
-            state_: props.state,
-            accessList_: [],
-            allowedChainIds: []
-        }],
+        address: '0x9fCA34a10585FE0F59bC3F7fa26888213A3A3140',
+        abi: StatelessERC20_ABI,
+        functionName: 'transfer',
+        args: [
+            props.to,
+            props.amount
+        ],
         value: parseEther("0.05")
      });
     

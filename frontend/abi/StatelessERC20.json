@@ -1,0 +1,62 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "contract IExecutionLayer",
+                "name": "execLayer_",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "statefulContract_",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "execLayer",
+        "outputs": [
+            {
+                "internalType": "contract IExecutionLayer",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "statefulContract",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "to",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "transfer",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    }
+]

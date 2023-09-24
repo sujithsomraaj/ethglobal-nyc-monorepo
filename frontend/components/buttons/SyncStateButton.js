@@ -6,7 +6,7 @@ export default function SyncStateButton(props) {
     console.log(props.value)
 
     const { data, write } = useContractWrite({ 
-        address: '0x805deF1C4B18B264138c238366B4a9BEA62442c2',
+        address: '0x36602dd0E00C6Ed0b4e3c463214002dBaAf7baC4',
         abi: ExecutionLayer_ABI,
         functionName: 'initializeStorage',
         args: [{

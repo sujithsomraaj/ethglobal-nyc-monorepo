@@ -6,7 +6,7 @@ dataSources:
     name: Contract
     network: goerli
     source:
-      address: "0xDaA1abbac708780Ad0DC75c4c9331937f5a1c922"
+      address: "0x36602dd0E00C6Ed0b4e3c463214002dBaAf7baC4"
       abi: Contract
       startBlock: 9747556
     mapping:
