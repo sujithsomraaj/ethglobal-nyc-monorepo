@@ -24,19 +24,20 @@ contract E2EDeploy is Script {
     function setUp() external {}
 
     function run() external {
-        vm.createSelectFork(vm.envString("STORAGE_CHAIN_RPC"));
-        vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
+        // vm.createSelectFork(vm.envString("STORAGE_CHAIN_RPC"));
+        // vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
 
-        storageLayer = address(new StorageLayer());
-        ERC20 = address(new StatefulERC20(0x93Cc7e20315cF896129D4343cfC2F2F0a88901A1));
-        vm.stopBroadcast();
+        // storageLayer = address(new StorageLayer());
+        // ERC20 = address(new StatefulERC20(0x93Cc7e20315cF896129D4343cfC2F2F0a88901A1));
+        // vm.stopBroadcast();
 
-        vm.createSelectFork(vm.envString("EXECUTION_CHAIN_RPC"));
+        vm.createSelectFork(vm.envString("POLYGON_ZK_RPC"));
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
         executionLayer = address(
-            new ExecutionLayer(IMailbox(PolygonMailbox), IHyperlanePaymaster(PolygonIGP), IAxelarGateway(PolygonGateway),IAxelarGasService(PolygonGasService), storageLayer)
+            new ExecutionLayer(IMailbox(address(0)), IHyperlanePaymaster(address(0)), IAxelarGateway(0x999117D44220F33e0441fbAb2A5aDB8FF485c54D),IAxelarGasService(0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6), 0x36602dd0E00C6Ed0b4e3c463214002dBaAf7baC4)
         );
-        ERC20_STATE_LESS = address(new StatelessERC20(IExecutionLayer(executionLayer), ERC20));
+        ERC20_STATE_LESS =
+            address(new StatelessERC20(IExecutionLayer(executionLayer), 0x119d3635362b8371c9865D0c4720617Fb5133b43));
         vm.stopBroadcast();
     }
 }

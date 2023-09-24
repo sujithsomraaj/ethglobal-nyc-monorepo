@@ -7,17 +7,10 @@ import {
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  base,
-  zora,
   goerli,
   polygonMumbai,
   arbitrumGoerli,
   celoAlfajores,
-  gnosisChiado,
   baseGoerli,
   mantleTestnet,
   lineaTestnet,
@@ -29,7 +22,7 @@ import Head from 'next/head';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
 const { chains, publicClient } = configureChains(
-  [goerli, polygonMumbai, arbitrumGoerli, celoAlfajores, gnosisChiado, baseGoerli, mantleTestnet, lineaTestnet, polygonZkEvmTestnet],
+  [goerli, polygonMumbai, arbitrumGoerli, celoAlfajores, baseGoerli, mantleTestnet, lineaTestnet, polygonZkEvmTestnet],
   [
     alchemyProvider({ apiKey: "s-sEaMiC8rHW7Tab8CTs3GWYX0vDKUhz"}),
     publicProvider(),

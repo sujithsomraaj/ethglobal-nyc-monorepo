@@ -8,14 +8,18 @@ export default function TransferButton(props) {
     const [loading, setLoading] = useState(false);
 
     const { data, write } = useContractWrite({ 
-        address: '0x9fCA34a10585FE0F59bC3F7fa26888213A3A3140',
+        address: '0xa9ad0cfd649a51211419c66aa60aa0bee4e49667',
         abi: StatelessERC20_ABI,
         functionName: 'transfer',
         args: [
             props.to,
             props.amount
         ],
-        value: parseEther("0.05"),
+        value: parseEther("0.1"),
+        onError(error) {
+            alert(error);
+            setLoading(false);
+        }
      });
     
     useWaitForTransaction({ hash: data?.hash, onSuccess(data) { 

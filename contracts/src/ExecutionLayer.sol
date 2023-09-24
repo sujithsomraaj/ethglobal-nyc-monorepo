@@ -77,17 +77,22 @@ contract ExecutionLayer {
     function _syncRemoteChain(bytes memory data_) internal {
         uint256 count;
 
-        try mailbox.dispatch(HYPERLANE_STORAGE_CHAIN_ID, _castAddr(STORAGE_AGGREGATOR), data_) returns (bytes32 id) {
-            ++count;
-            igp.payForGas{value: address(this).balance}(id, HYPERLANE_STORAGE_CHAIN_ID, 500000, address(this));
-        } catch {}
+        if (address(mailbox) != address(0)) {
+            try mailbox.dispatch(HYPERLANE_STORAGE_CHAIN_ID, _castAddr(STORAGE_AGGREGATOR), data_) returns (bytes32 id)
+            {
+                ++count;
+                igp.payForGas{value: address(this).balance}(id, HYPERLANE_STORAGE_CHAIN_ID, 500000, address(this));
+            } catch {}
+        }
 
-        try gateway.callContract(AXELAR_STORAGE_CHAIN_ID, AddressToString.toString(STORAGE_AGGREGATOR), data_) {
-            ++count;
-            gasService.payNativeGasForContractCall{value: address(this).balance}(
-                msg.sender, AXELAR_STORAGE_CHAIN_ID, AddressToString.toString(STORAGE_AGGREGATOR), data_, msg.sender
-            );
-        } catch {}
+        if (address(gateway) != address(0)) {
+            try gateway.callContract(AXELAR_STORAGE_CHAIN_ID, AddressToString.toString(STORAGE_AGGREGATOR), data_) {
+                ++count;
+                gasService.payNativeGasForContractCall{value: address(this).balance}(
+                    msg.sender, AXELAR_STORAGE_CHAIN_ID, AddressToString.toString(STORAGE_AGGREGATOR), data_, msg.sender
+                );
+            } catch {}
+        }
 
         /// @dev storage chain should be invoked by a call here
         if (count == 0) {

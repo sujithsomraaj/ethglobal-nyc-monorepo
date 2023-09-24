@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import SyncStateButton from "./buttons/SyncStateButton";
 
 import {BiCopyAlt} from "react-icons/bi";
+import Image from "next/image";
 
 export default function CreateState() {
     const [inputValue, setInputValue] = useState("");
@@ -52,9 +53,10 @@ export default function CreateState() {
             {
                 syncData?.map((d, key) => {
                     return (
-                        <div className="grid grid-cols-3 mt-2 border p-3 rounded" key={key}>
-                            <p className="flex place-items-center">{d.slotId.slice(0, 5) + "....." + d.slotId.slice(d.slotId.length - 5, d.slotId.length)} <BiCopyAlt  className="ml-2" /></p>
-                            <p>{d.currState_}</p>
+                        <div className="grid grid-cols-3 mt-2 border p-3 rounded place-items-center" key={key}>
+                            <p className="flex place-items-center justify-center">{d.slotId.slice(0, 5) + "....." + d.slotId.slice(d.slotId.length - 5, d.slotId.length)} <BiCopyAlt  className="ml-2" /></p>
+                            {/* <p>{d.currState_}</p> */}
+                            <p className="flex justify-center place-items-center"><Image className="m-3" src="/base-icon.svg" height={20} width={20} /> Base</p>
                             <p>{d.data.slice(0, 10) + "....." + d.data.slice(d.data.length - 10, d.data.length)}</p>
                         </div>
                     )
