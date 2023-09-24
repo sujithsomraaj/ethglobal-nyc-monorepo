@@ -2,13 +2,19 @@
 pragma solidity ^0.8.19;
 
 import "forge-std/Script.sol";
+
 import "../src/StorageLayer.sol";
 import "../src/ExecutionLayer.sol";
+
+import "../src/token-poc/StatefulERC20.sol";
+import "../src/token-poc/StatelessERC20.sol";
 
 contract E2EDeploy is Script {
     address storageLayer;
     address executionLayer;
 
+    address ERC20;
+    address ERC20_STATE_LESS;
     address public PolygonMailbox = 0xCC737a94FecaeC165AbCf12dED095BB13F037685;
     address public PolygonGateway = 0xBF62ef1486468a6bd26Dd669C06db43dEd5B849B;
 
@@ -22,6 +28,7 @@ contract E2EDeploy is Script {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
 
         storageLayer = address(new StorageLayer());
+        ERC20 = address(new StatefulERC20(0x93Cc7e20315cF896129D4343cfC2F2F0a88901A1));
         vm.stopBroadcast();
 
         vm.createSelectFork(vm.envString("EXECUTION_CHAIN_RPC"));
@@ -29,6 +36,7 @@ contract E2EDeploy is Script {
         executionLayer = address(
             new ExecutionLayer(IMailbox(PolygonMailbox), IHyperlanePaymaster(PolygonIGP), IAxelarGateway(PolygonGateway),IAxelarGasService(PolygonGasService), storageLayer)
         );
+        ERC20_STATE_LESS = address(new StatelessERC20(IExecutionLayer(executionLayer), ERC20));
         vm.stopBroadcast();
     }
 }
