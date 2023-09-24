@@ -16,17 +16,28 @@ import {
   goerli,
   polygonMumbai,
   arbitrumGoerli,
+  celoAlfajores,
+  gnosisChiado,
+  baseGoerli,
+  mantleTestnet,
+  lineaTestnet,
+  polygonZkEvmTestnet,
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import Link from 'next/link';
 import Head from 'next/head';
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
 const { chains, publicClient } = configureChains(
-  [goerli, polygonMumbai, arbitrumGoerli],
+  [goerli, polygonMumbai, arbitrumGoerli, celoAlfajores, gnosisChiado, baseGoerli, mantleTestnet, lineaTestnet, polygonZkEvmTestnet],
   [
     alchemyProvider({ apiKey: "s-sEaMiC8rHW7Tab8CTs3GWYX0vDKUhz"}),
-    publicProvider()
+    publicProvider(),
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: "https://spring-side-cherry.matic-testnet.discover.quiknode.pro/dc5ddeee640567b877192cf7ae23ad48e167340d/"
+      })
+    })
   ]
 );
 
