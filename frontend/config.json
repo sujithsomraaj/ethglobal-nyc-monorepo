@@ -4,9 +4,11 @@
     "base": "0x805def1c4b18b264138c238366b4a9bea62442c2",
     "arbitrum": "0x9764e24d0fe6c4d78b4f4dd782ee13c26aeb13a1",
     "celo": "0x9764e24d0fe6c4d78b4f4dd782ee13c26aeb13a1",
+    "linea": "0x9764e24d0fe6c4d78b4f4dd782ee13c26aeb13a1",
     "mumbaiERC20": "0x9fCA34a10585FE0F59bC3F7fa26888213A3A3140",
     "goerliERC20": "0x9fCA34a10585FE0F59bC3F7fa26888213A3A3140",
     "baseERC20": "0x9851c54B1E85722632B65230f51aBE396C7B09f8",
     "arbitrumERC20": "0xa9ad0cfd649a51211419c66aa60aa0bee4e49667",
-    "celoERC20": "0xa9ad0cfd649a51211419c66aa60aa0bee4e49667"
+    "celoERC20": "0xa9ad0cfd649a51211419c66aa60aa0bee4e49667",
+    "lineaERC20": "0xa9ad0cfd649a51211419c66aa60aa0bee4e49667"
 }

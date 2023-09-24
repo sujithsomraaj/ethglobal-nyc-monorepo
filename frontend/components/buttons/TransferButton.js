@@ -15,7 +15,7 @@ export default function TransferButton(props) {
             props.to,
             props.amount
         ],
-        value: parseEther("0.1"),
+        value: parseEther("0.005"),
         onError(error) {
             alert(error);
             setLoading(false);

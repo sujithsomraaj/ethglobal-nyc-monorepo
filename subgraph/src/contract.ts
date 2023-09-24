@@ -1,4 +1,6 @@
 import {
+  ExecuteCall,
+  HandleCall,
   InitData as InitDataEvent,
   UpdateData as UpdateDataEvent
 } from "../generated/Contract/Contract"
@@ -32,4 +34,12 @@ export function handleUpdateData(event: UpdateDataEvent): void {
   entity.transactionHash = event.transaction.hash
 
   entity.save()
+}
+
+export function handleHyperlane(call: HandleCall): void {
+
+}
+
+export function handleAxelar(call: ExecuteCall): void {
+  
 }

@@ -17,3 +17,11 @@ type UpdateData @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
+
+
+type TransferData @entity(immutable: true) {
+  id: Bytes!
+  from: String!
+  to: String!
+  amount: BigInt!
+}
