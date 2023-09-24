@@ -4,13 +4,17 @@ import {parseEther} from "ethers";
 import { PuffLoader } from "react-spinners";
 import { useState } from "react";
 import Link from "next/link";
+import { useNetwork } from 'wagmi'
+
 
 export default function TransferButton(props) {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
+    const {chain} = useNetwork();
+
     const { data, write } = useContractWrite({ 
-        address: '0xa9ad0cfd649a51211419c66aa60aa0bee4e49667',
+        address: chain.id == 80001 ? '0x9fCA34a10585FE0F59bC3F7fa26888213A3A3140' : chain.id == 84531 ? '0x9851c54B1E85722632B65230f51aBE396C7B09f8' : '0xa9ad0cfd649a51211419c66aa60aa0bee4e49667',
         abi: StatelessERC20_ABI,
         functionName: 'transfer',
         args: [
