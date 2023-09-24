@@ -24,11 +24,6 @@ dataSources:
           handler: handleInitData
         - event: UpdateData(bytes32,bytes,uint256)
           handler: handleUpdateData
-      callHandlers:
-        - function: execute(bytes32,string,string,bytes)
-          handler: handleAxelar
-        - function: handle(uint32,bytes32,bytes)
-          handler: handleHyperlane
       file: Contract/Contract.wasm
   - kind: ethereum
     name: ERC20

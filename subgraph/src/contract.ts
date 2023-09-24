@@ -36,10 +36,10 @@ export function handleUpdateData(event: UpdateDataEvent): void {
   entity.save()
 }
 
-export function handleHyperlane(call: HandleCall): void {
+// export function handleHyperlane(call: HandleCall): void {
 
-}
+// }
 
-export function handleAxelar(call: ExecuteCall): void {
+// export function handleAxelar(call: ExecuteCall): void {
   
-}
+// }
