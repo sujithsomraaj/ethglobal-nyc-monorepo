@@ -31,6 +31,7 @@ export default function CreateState() {
         
         try {
           const data = await request(url, query);
+          console.log(data.initDatas);
           setData(data.initDatas);
         } catch (err) {
           console.log(err);
@@ -55,8 +56,8 @@ export default function CreateState() {
                     return (
                         <div className="grid grid-cols-3 mt-2 border p-3 rounded place-items-center" key={key}>
                             <p className="flex place-items-center justify-center">{d.slotId.slice(0, 5) + "....." + d.slotId.slice(d.slotId.length - 5, d.slotId.length)} <BiCopyAlt  className="ml-2" /></p>
-                            {/* <p>{d.currState_}</p> */}
-                            <p className="flex justify-center place-items-center"><Image className="m-3" src="/base-icon.svg" height={20} width={20} /> Base</p>
+                            <p>{d.currState_}</p>
+                            {/* <p className="flex justify-center place-items-center"><Image className="m-3" src="/base-icon.svg" height={20} width={20} /> Base</p> */}
                             <p>{d.data.slice(0, 10) + "....." + d.data.slice(d.data.length - 10, d.data.length)}</p>
                         </div>
                     )

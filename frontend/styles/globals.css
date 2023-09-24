@@ -5,6 +5,7 @@
 :root {
   --green: #0e76fd;
   --black: #22262A;
+  --white: #F2F5F7;
 }
 
 html,
@@ -35,4 +36,8 @@ body {
 
 input::outline {
   color: var(--green) !important;
+}
+
+.bg-success {
+  background-color: #3cbd69;
 }
